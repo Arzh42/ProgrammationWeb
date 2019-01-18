@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" href="images/favicon.ico">
+		<link rel="stylesheet" type="text/css" href="style/mainStyleFile.css">
+		<title>TP nul </title>
+	</head>
+<body>
+	<div id="animatedElem" style="position:absolute;width:5000px;height:5000px;background: red;"></div>
+	<script>
+		window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+                              window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+		var elem = document.getElementById("animatedElem");
+		var left = 0;
+		let oldDate = null;
+		function step(timestamp) {
+			var progress;
+		 	if (oldDate === null) oldDate = timestamp;
+			progress = timestamp - oldDate;
+			oldDate = timestamp;
+			if (progress<160) {
+				if (left<400) {
+					left = Math.min(left+progress/100,400);
+					elem.style.left = ( left += progress/100 ) + "px";
+				}
+			}
+			if (left<400) {
+				requestAnimationFrame(step);
+			} 
+				
+		}
+		requestAnimationFrame(step);
+	</script>
+</body>
+
+</html>

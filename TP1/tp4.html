@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html  dir="ltr" lang="fr" xml:lang="fr">
+  <head>
+    <title>TP</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body style="margin:0px">
+
+	<canvas id="canvas" style="margin: 0px;" width="100" height="100"></canvas>	
+    <script>
+        let canvas = document.getElementById("canvas");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let ctx = canvas.getContext("2d");
+        let posX = [];
+        let beginX = [];
+        function addCarre(decalage) {
+            posX.push(0);
+            beginX.push(decalage*100);
+            ctx.fillRect(0,10,10,10);
+        }
+        for (let i=0;i<3;i++) {
+            addCarre(i);
+        }
+
+ 
+        setTimeout(function() {
+            let inter = setInterval(function() {        
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+                for (let i = 0;i<posX.length;i++) {
+                    if (beginX[i]>0) {
+                        beginX[i] --;
+                    }
+                    else {
+                        posX[i] += 1;
+                        ctx.fillRect(posX[i],10,10,10);
+                    }
+                }
+            },10);
+        },4000);
+        
+    </script>
+</body>
+
+</html>

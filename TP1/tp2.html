@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html  dir="ltr" lang="fr" xml:lang="fr">
+  <head>
+    <title>TP</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body style="margin:0px">
+
+	<canvas id="canvas" style="margin: 0px;" width="100" height="100"></canvas>	
+    <script>
+    	let x = 0;
+    	let canvas = document.getElementById("canvas");
+    	canvas.width = window.innerWidth;
+    	canvas.height = window.innerHeight;
+    	let ctx = canvas.getContext("2d");
+    	ctx.fillStyle = "red";
+    	ctx.fillRect(x,10,10,10);
+    	let inter = setInterval(function() {
+    		
+    		ctx.clearRect(x,10,10,10);
+    		x += 1;
+    		ctx.fillRect(x,10,10,10);
+    	},10);
+    </script>
+</body>
+
+</html>

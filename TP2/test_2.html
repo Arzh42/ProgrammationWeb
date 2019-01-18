@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" href="images/favicon.ico">
+		<link rel="stylesheet" type="text/css" href="style/mainStyleFile.css">
+		<title>TP nul </title>
+	</head>
+<body>
+	<div id="animatedElem" style="position:absolute;width:5000px;height:5000px;background: red;"></div>
+	<script>
+		var elem = document.getElementById("animatedElem");
+		var left = 0;
+		var timer;
+		var oldDate = new Date();
+		// Move the element 10px on the right every 16ms
+		timer = setInterval(function() {
+			let rapport = (new Date()-oldDate)/16;
+			oldDate = new Date();
+			
+			console.log(rapport);
+			elem.style.left = ( left += 10*rapport ) + "px";
+			// clear the timer at 400px to stop the animation
+			if ( left > 400 ) {
+				clearInterval( timer );
+			}
+		}, 16);
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+
+<html>
+	<head>
+		<style type="text/css">
+			#navlist{position:relative;}
+			#navlist li{margin:0;padding:0;list-style:none;position:absolute;top:0;}
+			#navlist li,#navlist a{height:60px;display:block;}
+			#play{left:0px;width:47px;}
+			#play{background-image:url("image.jpg"); border:black; border-width: 1px; width:300px; height:300px!important; background-repeat:no-repeat; background-size:300px 300px}
+		</style>
+		<script> 
+			let canvas;
+			let ctx;
+			let player;
+			class Player {
+				constructor(url) {
+					this.url = url;
+					this.buildHtml();
+					this.player = document.getElementById("player");
+					this.player.innerHTML = '<source src="'+url+'" type="audio/mp3">';
+					this.player.load();
+				}
+				buildHtml() {
+					let a = document.getElementById("div2");
+					a.innerHTML = '<button onclick="player.play()">Play</div>';
+					
+				}
+				play () {
+					this.player.play();
+				}
+				getProg() {
+					return (this.player.currentTime/this.player.duration)*100;
+				}
+			}
+			function init() {
+				canvas = document.getElementById("myCanvas");
+				ctx  = canvas.getContext("2d");
+				player = new Player("./Queen - Bohemian Rapsody.mp3");
+			
+			}
+			function updateCanvas() {
+				ctx.clearRect(0,0,canvas.width,canvas.height);
+				console.log(player.getProg());
+				ctx.beginPath();
+				ctx.arc(50, 50, 20, -1*(Math.PI/2), (2 * Math.PI/100)*player.getProg()-(Math.PI/2), false);
+			    ctx.lineWidth = 5;
+			    ctx.strokeStyle = '#003300';
+			    ctx.stroke();
+			}
+		
+		</script>
+	</head>
+	<body onload="init()">
+		<div id="div2">
+		</div>
+		<canvas id="myCanvas" width="200" height="200"></canvas>
+		<audio id="player" preload tabindex="0" ontimeupdate="updateCanvas()">
+		</audio>
+	</body>
+</html>

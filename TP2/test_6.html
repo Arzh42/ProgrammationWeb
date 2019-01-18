@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" href="images/favicon.ico">
+		<link rel="stylesheet" type="text/css" href="style/mainStyleFile.css">
+		<title>TP nul </title>
+	</head>
+<body>
+	<canvas id="canvas" width="400" height="400"></canvas>
+	<script>
+		window.onload = function() {
+			window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+	                              window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+			let canvas = document.getElementById("canvas");
+			let ctx = canvas.getContext("2d");
+			let oldDate = null;
+			let comptAnim = 0;
+			let anim = 0;
+			let maxAnim = 10;
+			let img = new Image();
+			img.src = "./images/coin-sprite-animation.png";
+			img.onload = start;
+			function step(timestamp) {
+				var progress;
+			 	if (oldDate === null) oldDate = timestamp;
+				progress = timestamp - oldDate;
+				oldDate = timestamp;
+				if (progress<160) {
+					drawGame(progress);
+				}
+				setTimeout(function() {
+						requestAnimationFrame(step);
+				},1000/80);		
+			}
+			function drawGame(deltaV) {
+				comptAnim ++;
+				if (comptAnim>1) {
+					comptAnim = 0;
+					anim = (anim+1)%maxAnim;
+				}
+				ctx.clearRect(10,10,40,40);
+				ctx.drawImage(img,100*anim,0,100,100,10,10,40,40);
+			}
+			function start() {
+				requestAnimationFrame(step);	
+			}
+
+		}
+	</script>
+</body>
+
+</html>

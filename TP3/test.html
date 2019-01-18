@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" href="images/favicon.ico">
+		<link rel="stylesheet" type="text/css" href="style/mainStyleFile.css">
+		<title>TP</title>
+	</head>
+<body>
+	<canvas id="canvas" width="400" height="400"></canvas>
+	<script>
+		window.onload = function() {
+			window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+	                              window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+	        let lastKey = null;
+			let canvas = document.getElementById("canvas");
+			let ctx = canvas.getContext("2d");
+			let oldDate = null;
+			let comptAnim = 0;
+			let anim = 0;
+			let selectAnim = 2;
+			let x = 10;
+			let ax = 100;
+			let ay = 100;
+			let y = 10;
+			let maxAnim = 4;
+			let img = new Image();
+			img.src = "hero.png";
+			img.onload = start;
+			function step(timestamp) {
+				var progress;
+			 	if (oldDate === null) oldDate = timestamp;
+				progress = timestamp - oldDate;
+				oldDate = timestamp;
+				if (progress<160) {
+					updateGame(progress);
+					drawGame(progress);
+				}
+				setTimeout(function() {
+						requestAnimationFrame(step);
+				},1000/80);		
+			}
+			function updateGame(deltaV) {
+				if (lastKey=="down") {
+					y += deltaV*(ay/1000);
+					selectAnim = 2;
+				}
+				else if (lastKey=="up") {
+					y -= deltaV*(ay/1000);
+					selectAnim = 3;
+				}
+				else if (lastKey=="left") {
+					x -= deltaV*(ax/1000);
+					selectAnim = 0;
+				}
+				else if (lastKey=="right") {
+					x += deltaV*(ax/1000);
+					selectAnim = 1;
+				}
+			}
+			function drawGame(deltaV) {
+				comptAnim ++;
+				if (comptAnim>10) {
+					comptAnim = 0;
+					anim = (anim+1)%maxAnim;
+				}
+				ctx.clearRect(x,y,128,128);
+				ctx.drawImage(img,128*anim,selectAnim*128,128,128,x,y,128,128);
+			}
+			function getKeyboard() {
+				window.addEventListener("keydown",function(e) {
+					
+					if (e.keyCode==40) {
+						e.preventDefault();
+						lastKey = "down";
+					}
+					else if (e.keyCode==38) {
+						e.preventDefault();
+						lastKey = "up";
+					}
+					else if (e.keyCode==37) {
+						e.preventDefault();
+						lastKey = "left";
+					}
+					else if (e.keyCode==39) {
+						e.preventDefault();
+						lastKey = "right";
+					}
+				});
+				window.addEventListener("keyup",function(e) {
+					e.preventDefault();
+					lastKey = null;
+				});
+			}
+			getKeyboard();
+			function start() {
+				requestAnimationFrame(step);	
+			}
+
+		}
+	</script>
+</body>
+
+</html>
